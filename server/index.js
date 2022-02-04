@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from 'dotenv'; 
-import auth from './routes/auth';
-import register from './routes/register';
+import authRoutes from './routes/auth.js'; 
+import postRoutes from './routes/posts.js'; 
 
 const app = express();
 dotenv.config();
@@ -12,8 +12,9 @@ app.use(express.json({limit:"30mb", extended:"true"}));
 app.use(express.urlencoded({limit:"30mb", extended:"true"}));
 app.use(cors()); 
 
-app.use('/register', register);
-app.use('/auth', auth);
+console.log("index.js");
+app.use('/auth', authRoutes);
+app.use('/posts', postRoutes);
 app.get("/",(req,res)=> res.send("Welcome to :)learN o Gram(:"));
 const PORT = process.env.PORT || 5000;
 

@@ -9,6 +9,13 @@ const schema = new mongoose.Schema({
         maxLength : 255,
         trim : true
     },
+    username: {
+        type: String,
+        required:true,
+        unique: true,
+        minLength : 3,
+        maxLength : 255
+    },
     email : {
         type : String,
         required : true,
@@ -20,6 +27,18 @@ const schema = new mongoose.Schema({
         minLength :8,
         maxLength :255,
         pattern : /[a-zA-Z0-9.*]/
+    },
+    gender:{
+        type:String,
+        enum : ["Male", "Female", "Other"],
+        required:true,
+    },
+    interest:{
+        type: Array
+    },
+    timestamp:{
+        type: Date,
+        default : Date.now    
     }
 })
 
@@ -31,4 +50,4 @@ schema.methods.generateToken = function()
 
 const model = mongoose.model('users', schema);
 
-exports.model = model;
+export default model;

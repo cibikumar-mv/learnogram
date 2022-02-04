@@ -1,8 +1,10 @@
 import express from 'express';
-import { login } from '../controllers/users';
+import { login, signup } from '../controllers/users.js';
 import lodash from 'lodash';
 const router = express.Router();
 
-router.post('/', login);
+console.log("signup");
+router.post('/login', login);
+router.post('/signup', signup);
 
-exports = router;
+export default router;

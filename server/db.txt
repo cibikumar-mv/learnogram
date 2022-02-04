@@ -1,0 +1,58 @@
+////signup model/////
+
+name
+username
+email
+password
+timestamp
+gender
+interest/experience tags(optional)
+
+
+/////user status/reputation///
+
+email
+tot likes
+reputaions
+activity???????
+
+
+/////create post to expose their journey////
+
+post id
+title
+email					[from-> then -> then]
+tags
+post content text(String)
+timestamp
+views
+
+
+///marking votes and devotes for posts///          ///tot//
+
+postid				                            	post id
+email					                            totlikes
+like -0 dislike -1	                        		totdislikes
+
+
+////comments to particular post///
+
+post id
+email
+comments
+comments id
+
+
+///marking votes and devotes///             ///tot//
+
+commentsid				                    comments id
+email					                    totlikes
+like -0 dislike -1			                totdislikes
+
+
+///tags///
+
+tag id
+post id
+tagaddedcount
+timestamp
