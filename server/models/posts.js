@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';  
+import mongoose from 'mongoose'; 
 
 const schema = new mongoose.Schema({
     title : {
@@ -9,37 +8,33 @@ const schema = new mongoose.Schema({
         maxLength : 255,
         trim : true
     },
-    email: {
-        type: String,
-        required:true,
-        minLength : 3,
-        maxLength : 255
+    user_id: { 
+        required : false,
+        type: mongoose.Schema.Types.ObjectId, ref: 'users' 
     },
     tags : {
         type : Array,
         required : true,
     },
-    postContent : {
+    content : {
         type : Array,
+        required : true
+    },
+    type : {
         required : true,
-        minLength :8,
+        type : String,
+        enum : ['Completed', 'In Progress', 'Suggestion']
     },
     views:{
         type:Number,
         required:true,
         default:0,
-    },  
+    },
     timestamp:{
         type: Date,
         default : Date.now    
     }
 })
-
-schema.methods.generateToken = function()
-{
-    const token = jwt.sign({id : this._id}, process.env.PRIVATEKEY);
-    return token;
-}
 
 const postModel = mongoose.model('posts', schema);
 

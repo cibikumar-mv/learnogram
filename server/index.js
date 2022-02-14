@@ -4,7 +4,6 @@ import cors from "cors";
 import dotenv from 'dotenv'; 
 import authRoutes from './routes/auth.js'; 
 import postRoutes from './routes/posts.js'; 
-
 const app = express();
 dotenv.config();
 
@@ -14,7 +13,7 @@ app.use(cors());
 
 console.log("index.js");
 app.use('/auth', authRoutes);
-app.use('/posts', postRoutes);
+app.use('/posts',  postRoutes);
 app.get("/",(req,res)=> res.send("Welcome to :)learN o Gram(:"));
 const PORT = process.env.PORT || 5000;
 

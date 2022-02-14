@@ -1,4 +1,4 @@
-const Joi = require('joi'); 
+import Joi from 'joi';
 
 const Validate = (schema, property) => { 
   return (req, res, next) => { 
@@ -12,7 +12,7 @@ const Validate = (schema, property) => {
     const message = details.map(i => i.message).join(',');
 
     console.log("error:", message); 
-   res.status(422).json({ error: message }) } 
+   res.send({ error: message }) } 
   } 
 } 
-module.exports = Validate;
+export default Validate;

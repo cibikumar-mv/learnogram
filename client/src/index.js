@@ -5,13 +5,17 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducer from "./reducers";
 import App from "./app";
-// const store = createStore(reducer, compose(applyMiddleware(thunk)));
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme";
 
+const store = createStore(reducer, compose(applyMiddleware(thunk)));
 ReactDOM.render(
-//   <Provider store={store}>
-<div>
+  <ThemeProvider theme={theme}>
+  <Provider store={store}>
     <App />
-</div>,
-//   </Provider>,
+
+
+</Provider>
+</ThemeProvider>,
   document.getElementById("root")
 );

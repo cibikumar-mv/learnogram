@@ -44,7 +44,7 @@ const schema = new mongoose.Schema({
 
 schema.methods.generateToken = function()
 {
-    const token = jwt.sign({id : this._id}, process.env.PRIVATEKEY);
+    const token = jwt.sign({id : this._id, username: this.username, email: this.email}, process.env.PRIVATEKEY);
     return token;
 }
 
