@@ -10,7 +10,8 @@ const schema = new mongoose.Schema({
     },
     user_id: { 
         required : false,
-        type: mongoose.Schema.Types.ObjectId, ref: 'users' 
+        type: String, 
+        ref: 'users'
     },
     tags : {
         type : Array,
@@ -30,12 +31,22 @@ const schema = new mongoose.Schema({
         required:true,
         default:0,
     },
+    comment:{
+        type:Array,
+    },
+    likes:{
+        type: Number,
+        default:0,
+
+    },
     timestamp:{
         type: Date,
         default : Date.now    
     }
 })
 
-const postModel = mongoose.model('posts', schema);
 
+
+
+const postModel = mongoose.model('posts', schema);
 export default postModel;

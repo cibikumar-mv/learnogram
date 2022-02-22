@@ -5,7 +5,7 @@ const paperStyle = {
   
 };
 const headerStyle = { margin: 5 };
-const fieldStyle = { mt: 1 };
+const fieldStyle = { mt: 2 };
 const avatarStyle = { backgroundColor: "#1bbd7e" };
 const marginTop = { marginTop: 5, padding: 10 };
 

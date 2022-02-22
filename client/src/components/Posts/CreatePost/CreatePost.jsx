@@ -1,8 +1,10 @@
 //react imports
 import { TextField, MenuItem, Grid, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../Navbar/Navbar";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 //external imports
 import TextComp from "./TextComp";
@@ -16,10 +18,16 @@ const CreatePost = () => {
   const roadMapTypes = ["Completed", "In Progress", "Suggestion"];
   const initialState = { title: "", type: "", tags: "", content: [] };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  //states
+  //hooks
   const [inputList, setInputList] = useState([]);
   const [postData, setPostData] = useState(initialState);
+  useEffect(() => {
+    if(!localStorage.getItem("profile")){
+      navigate("/auth");
+    }
+  },[navigate]);
 
   //functions
   const handleChange = (event) => {
@@ -123,7 +131,7 @@ const CreatePost = () => {
             {inputList.map((input, idx) => {
               return (
                 <Grid item key={idx}>
-                  {input.type === "TextFiled" ? (
+                  {input.type === "TextField" ? (
                     <TextComp
                       inputChange={handleInputChange}
                       value={input.value}

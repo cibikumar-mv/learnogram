@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -9,53 +9,52 @@ import {
   Typography,
   TextField,
   Button,
-  FormHelperText,
 } from "@mui/material";
 import { GoogleLogin } from "react-google-login";
 import Icon from "./icon.jsx";
-import { signin, signup } from "../../actions/auth";
+import { signin, googleSignIn } from "../../actions/auth";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { SAVE } from "../../constants/actionTypes";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import {
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  Checkbox,
-  Select,
-  MenuItem,
-  InputLabel,
-  ListItemText,
-  ListItemIcon,
-} from "@mui/material/";
 import * as styles from "./styles";
 const Form = () => {
   //declarations
-  const options = ["AI", "ML", "React", "Angular", "Cloud Computing"];
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const googleID = process.env.REACT_APP_CLIENT_ID;
   const initialState = {
     name: "",
-    username: "",
     password: "",
     confirmPassword: "",
     email: "",
-    gender: "",
-    interest: [],
   };
-  
 
   //states
   const [signIn, setSignIn] = useState(true);
   const [form, setForm] = useState(initialState);
-  const [selected, setSelected] = useState([]);
-  const [errors, setErrors] = useState({...initialState, interest: ""});
-  // const navigate = useNavigate();
+  const [errors, setErrors] = useState({ ...initialState });
+  useEffect(() => {
+    if (localStorage.getItem("profile")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   //functions
-  const googleSuccess = (e) => {
-    console.log(e);
+  const googleSuccess = async (res) => {
+    const data = res?.profileObj;
+    const googleData = {
+      name: data.name,
+      email: data.email,
+      googleId: data.googleId,
+      imageUrl: data.imageUrl,
+      isGoogle: true,
+    };
+
+    try {
+      dispatch(signin(googleData, navigate));
+    } catch (error) {
+      console.log(error);
+    }
   };
   const googleError = (error) => {
     console.log(error);
@@ -73,59 +72,46 @@ const Form = () => {
 
   const validation = (fieldValues = form) => {
     let temp = { ...errors };
-    const userNameRegex = new RegExp(
-      "^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
-    );
     const passwordRegex = new RegExp(
       "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$"
     );
-
     const emailRegex = new RegExp(
       "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
     );
     if ("name" in fieldValues)
       temp.name = fieldValues.name.length === 0 ? "Enter Your Name" : "";
-    if ("username" in fieldValues)
-      temp.username = !userNameRegex.test(fieldValues.username)
-        ? "Only alphanumeric characters, underscore and dot with at least 4 characters long"
-        : "";
     if ("password" in fieldValues)
       temp.password = !passwordRegex.test(fieldValues.password)
         ? "One Uppercase,One Lowercase,One Digit,One Special character,at least 8 characters"
         : "";
-    if ("confirmPassword" in fieldValues){
-      temp.confirmPassword = fieldValues.confirmPassword !== form.password? "Confirm Password must match Password": "";
+    if ("confirmPassword" in fieldValues) {
+      temp.confirmPassword =
+        fieldValues.confirmPassword !== form.password
+          ? "Confirm Password must match Password"
+          : "";
     }
     if ("email" in fieldValues)
       temp.email = !emailRegex.test(fieldValues.email) ? "Invalid Email" : "";
-    if ("gender" in fieldValues)
-      temp.gender = fieldValues.gender.length === 0 ? "Please Select one" : "";
-    if ("interest" in fieldValues){
-      temp.interest =
-        fieldValues.interest.length === 0 ? "Please select your interests" : "";
-    }
-
     setErrors({
       ...temp,
     });
+
+    console.log("TEMP:", temp);
 
     if (fieldValues === form)
       return Object.values(temp).every((val) => val === "");
   };
 
-  const handleSelect = (e) => {
-    const value = e.target.value;
-    setSelected(value);
-    setForm({ ...form, interest: value });
-    validation({ 'interest': e.target.value });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (signIn) {
-      dispatch(signin(form));
+      console.log("Sign In");
+      dispatch(signin(form, navigate));
     } else {
-      dispatch(signup(form));
+      if (validation()) {
+        dispatch({ type: SAVE, data: {...form , isGoogle:false} });
+        navigate("/details");
+      }
     }
   };
 
@@ -167,15 +153,14 @@ const Form = () => {
           {signIn ? (
             <>
               <TextField
-                label="Username\Email"
-                placeholder="Enter email/username"
+                label="Email"
+                placeholder="Enter your Email"
                 fullWidth
                 required
-                name="username"
+                name="email"
                 onChange={handleChange}
-                value={form.username}
+                value={form.email}
                 sx={styles.fieldStyle}
-                helperText="Please enter your username or email"
               />
               <TextField
                 label="Password"
@@ -203,17 +188,6 @@ const Form = () => {
                 helperText={errors.name}
               />
               <TextField
-                label="Username"
-                placeholder="Enter your Username"
-                name="username"
-                fullWidth
-                onChange={handleChange}
-                value={form.username}
-                sx={styles.fieldStyle}
-                error={errors.username !== ""}
-                helperText={errors.username}
-              />
-              <TextField
                 fullWidth
                 label="Email"
                 name="email"
@@ -224,64 +198,6 @@ const Form = () => {
                 error={errors.email !== ""}
                 helperText={errors.email}
               />
-              <FormControl error={errors.gender !== ""} component="fieldset" style={styles.marginTop}>
-                <FormLabel sx={styles.fieldStyle} component="legend">
-                  Gender
-                </FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender"
-                  style={{ display: "initial" }}
-                  onChange={handleChange}
-                  required
-                >
-                  <FormControlLabel
-                    value="Male"
-                    control={<Radio />}   
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="Female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="Other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
-                <FormHelperText>{errors.gender}</FormHelperText>
-              </FormControl>
-
-              <FormControl
-                fullWidth
-                error={errors.interest !== ""}
-                // helperText={errors.interest}
-              >
-                <InputLabel>Select your interest</InputLabel>
-
-                <Select
-                  multiple
-                  sx={styles.fieldStyle}
-                  
-                  value={selected}
-                  label="select your interest"
-                  onChange={handleSelect}
-                  renderValue={(selected) => selected.join(", ")}
-                >
-                  {options.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      <ListItemIcon>
-                        <Checkbox checked={selected.indexOf(option) > -1} />
-                      </ListItemIcon>
-                      <ListItemText primary={option} />
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>{errors.interest}</FormHelperText>
-              </FormControl>
-
               <TextField
                 type="password"
                 fullWidth

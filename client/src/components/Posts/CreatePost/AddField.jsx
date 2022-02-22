@@ -11,7 +11,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const AddField = (props) => {
   //declarations
-  const settings = ["TextFiled", "Image", "Link"];
+  const settings = ["TextField", "Image", "Link"];
 
   //states
   const [anchorElUser, setAnchorElUser] = React.useState(null);

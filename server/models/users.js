@@ -21,13 +21,6 @@ const schema = new mongoose.Schema({
         required : true,
         unique : true
     },
-    password : {
-        type : String,
-        required : true,
-        minLength :8,
-        maxLength :255,
-        pattern : /[a-zA-Z0-9.*]/
-    },
     gender:{
         type:String,
         enum : ["Male", "Female", "Other"],
@@ -35,6 +28,24 @@ const schema = new mongoose.Schema({
     },
     interest:{
         type: Array
+    },
+    imageUrl:{
+        type:String,
+    },
+    isGoogle:{
+        type : Boolean,
+        required : true
+    },
+    password : {
+        type : String,
+        required : function(){if(this.isGoogle==true)return false;else return true;},
+        minLength :8,
+        maxLength :255,
+        pattern : /[a-zA-Z0-9.*]/
+    },
+    googleId:{
+        type : String,
+        required : function(){if(this.isGoogle==true)return true; else return false;}
     },
     timestamp:{
         type: Date,
@@ -44,7 +55,7 @@ const schema = new mongoose.Schema({
 
 schema.methods.generateToken = function()
 {
-    const token = jwt.sign({id : this._id, username: this.username, email: this.email}, process.env.PRIVATEKEY);
+    const token = jwt.sign({id : this._id, username: this.username, email: this.email, iss: "Server"}, process.env.PRIVATEKEY);
     return token;
 }
 
