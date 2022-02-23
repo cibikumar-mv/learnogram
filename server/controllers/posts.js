@@ -2,13 +2,14 @@ import postModel from "../models/posts.js";
 import model from "../models/users.js";
 import tagModel from "../models/tags.js";
 import _ from "lodash";
-
+import text2png from "text2png";
+import fs from "fs";
 export const createPost = async (req, res) => { 
   const newPost = new postModel(
-    _.pick(req.body, ["title", "tags", "content", "type"])
+    _.pick(req.body, ["title", "tags", "content", "type","thumbnail","shortDesc"])
   );
   newPost.user_id = req.userID;
-  try {
+  try {    
     const result = await newPost.save(); 
     if(result.tags)
     {

@@ -5,18 +5,17 @@ import Navbar from "../../Navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-
 //external imports
 import TextComp from "./TextComp";
 import ImageComp from "./ImageComp";
 import LinkComp from "./LinkComp";
 import AddField from "./AddField";
-import {createPost} from "../../../actions/posts"
+import { createPost } from "../../../actions/posts";
 
 const CreatePost = () => {
   //declarations
   const roadMapTypes = ["Completed", "In Progress", "Suggestion"];
-  const initialState = { title: "", type: "", tags: "", content: [] };
+  const initialState = { title: "", type: "", tags: "", thumbnail:"", shortDesc:"", content: [] };
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,10 +23,11 @@ const CreatePost = () => {
   const [inputList, setInputList] = useState([]);
   const [postData, setPostData] = useState(initialState);
   useEffect(() => {
-    if(!localStorage.getItem("profile")){
+    if (!localStorage.getItem("profile")) {
       navigate("/auth");
     }
-  },[navigate]);
+    console.log("PostData:",postData);
+  }, [navigate]);
 
   //functions
   const handleChange = (event) => {
@@ -45,18 +45,25 @@ const CreatePost = () => {
     setInputList(list);
     setPostData((prevState) => ({
       ...prevState,
-      "content": list,
+      content: list,
     }));
   };
 
-  const handleImageChange = (index, base) => {
+  const handleContentImageChange = (index, base) => {
     const list = [...inputList];
     list[index].value = base;
     setInputList(list);
     setPostData((prevState) => ({
       ...prevState,
-      "content": list,
+      content: list,
     }));
+  };
+
+  const handleImageChange = (image) =>{
+    setPostData((prevState) => ({
+      ...prevState,
+      thumbnail: image,
+    }));    
   };
 
   const handleSubmit = (e) => {
@@ -64,7 +71,6 @@ const CreatePost = () => {
     e.preventDefault();
     console.log("postData", postData);
     dispatch(createPost(postData));
-
   };
 
   const handleRemoveClick = (index) => {
@@ -73,7 +79,7 @@ const CreatePost = () => {
     setInputList(list);
     setPostData((prevState) => ({
       ...prevState,
-      "content": list,
+      content: list,
     }));
   };
 
@@ -86,7 +92,12 @@ const CreatePost = () => {
       <Navbar />
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={3} padding={2}>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
+            <ImageComp
+              imageChange={handleImageChange}
+              value={postData.thumbnail}
+              normal
+            />
             <TextField
               fullWidth
               name="title"
@@ -96,8 +107,18 @@ const CreatePost = () => {
               variant="standard"
             />
           </Grid>
+          <Grid item xs={3}>
+            <TextField
+              fullWidth
+              name="thumbnail"
+              value={postData.title}
+              onChange={handleChange}
+              label="Short Desc"
+              variant="standard"
+            />
+          </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <TextField
               fullWidth
               id="outlined-select-currency"
@@ -116,7 +137,7 @@ const CreatePost = () => {
             </TextField>
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <TextField
               fullWidth
               name="tags"
@@ -140,7 +161,7 @@ const CreatePost = () => {
                     />
                   ) : input.type === "Image" ? (
                     <ImageComp
-                      imageChange={handleImageChange}
+                      imageChange={handleContentImageChange}
                       value={input.value}
                       index={idx}
                       deleteClick={handleRemoveClick}

@@ -8,10 +8,13 @@ const ImageComp = (props) => {
   const [image, setImage] = useState(null);
   let fileInputRef = useRef(null);
   useEffect(() => {
+    console.log("Props normal:", props.normal);
     if (image) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        props.imageChange(props.index, reader.result);
+        props.normal
+          ? props.imageChange(reader.result)
+          : props.imageChange(props.index, reader.result);
       };
       reader.readAsDataURL(image);
     } else {
@@ -24,7 +27,7 @@ const ImageComp = (props) => {
     e.preventDefault();
     fileInputRef.current.click();
   };
-  
+
   return (
     <Grid container spacing={2} padding={2}>
       <Grid item xs={10}>
@@ -65,9 +68,11 @@ const ImageComp = (props) => {
           }}
         />
       </Grid>
-      <Grid item xs={2}>
-        <DeleteField deleteClick={props.deleteClick} index={props.index}/>
-      </Grid>
+      {!props.normal && (
+        <Grid item xs={2}>
+          <DeleteField deleteClick={props.deleteClick} index={props.index} />
+        </Grid>
+      )}
     </Grid>
   );
 };

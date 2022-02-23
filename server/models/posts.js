@@ -39,6 +39,12 @@ const schema = new mongoose.Schema({
         default:0,
 
     },
+    thumbnail:{
+        type:String,
+    },
+    shortDec:{
+        type:String,
+    },
     timestamp:{
         type: Date,
         default : Date.now    
