@@ -1,11 +1,19 @@
 //react imports
-import { TextField, MenuItem, Grid, Button } from "@mui/material";
+import {
+  TextField,
+  MenuItem,
+  Grid,
+  Button,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-//external imports
+//local imports
+import Toast from "../../Toast/Toast1";
 import TextComp from "./TextComp";
 import ImageComp from "./ImageComp";
 import LinkComp from "./LinkComp";
@@ -15,7 +23,14 @@ import { createPost } from "../../../actions/posts";
 const CreatePost = () => {
   //declarations
   const roadMapTypes = ["Completed", "In Progress", "Suggestion"];
-  const initialState = { title: "", type: "", tags: "", thumbnail:"", shortDesc:"", content: [] };
+  const initialState = {
+    title: "",
+    type: "",
+    tags: "",
+    thumbnail: "",
+    shortDesc: "",
+    content: [],
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +41,7 @@ const CreatePost = () => {
     if (!localStorage.getItem("profile")) {
       navigate("/auth");
     }
-    console.log("PostData:",postData);
+    console.log("PostData:", postData);
   }, [navigate]);
 
   //functions
@@ -59,16 +74,20 @@ const CreatePost = () => {
     }));
   };
 
-  const handleImageChange = (image) =>{
+  const handleImageChange = (image) => {
     setPostData((prevState) => ({
       ...prevState,
       thumbnail: image,
-    }));    
+    }));
   };
 
   const handleSubmit = (e) => {
-    console.log("In submit");
     e.preventDefault();
+    // console.log(postData.type.length === 0 );
+    if (postData.type.length === 1) {
+      Toast({toastType:"0",name: "Enter all the required fields   "})
+    };
+
     console.log("postData", postData);
     dispatch(createPost(postData));
   };
@@ -90,62 +109,77 @@ const CreatePost = () => {
   return (
     <div>
       <Navbar />
+      <Toast />
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <Grid container spacing={3} padding={2}>
-          <Grid item xs={3}>
-            <ImageComp
-              imageChange={handleImageChange}
-              value={postData.thumbnail}
-              normal
-            />
-            <TextField
-              fullWidth
-              name="title"
-              value={postData.title}
-              onChange={handleChange}
-              label="Title"
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              name="thumbnail"
-              value={postData.title}
-              onChange={handleChange}
-              label="Short Desc"
-              variant="standard"
-            />
-          </Grid>
+        <Grid container>
+          <Grid item mt={2} xs={12}>
+            <Paper square elevation={2} sx={{ bgcolor: "#F2F2F2", marginX:'10%'  }}>
+              <Grid container padding={2}>
+                <Grid item padding={1} xs={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="title"
+                    value={postData.title}
+                    onChange={handleChange}
+                    label="Title"
+                    variant="standard"
+                  />
+                </Grid>
+                <Grid item padding={1} xs={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="shortDesc"
+                    value={postData.shortDesc}
+                    onChange={handleChange}
+                    label="Short Description"
+                    variant="standard"
+                  />
+                </Grid>
+                <Grid item padding={1} xs={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    select
+                    name="type"
+                    value={postData.type}
+                    onChange={handleChange}
+                    label="Roadmap Type"
+                    variant="standard"
+                  >
+                    {roadMapTypes.map((types, index) => (
+                      <MenuItem key={index} value={types}>
+                        {types}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
 
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              id="outlined-select-currency"
-              select
-              name="type"
-              value={postData.type}
-              onChange={handleChange}
-              label="Roadmap Type"
-              variant="standard"
-            >
-              {roadMapTypes.map((types, index) => (
-                <MenuItem key={index} value={types}>
-                  {types}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
+                <Grid item padding={1} xs={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="tags"
+                    value={postData.tags}
+                    onChange={handleChange}
+                    label="Tags"
+                    variant="standard"
+                  />
+                </Grid>
 
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              name="tags"
-              value={postData.tags}
-              onChange={handleChange}
-              label="Tags"
-              variant="standard"
-            />
+                <Grid container mt={2} justifyContent="center">
+                  <Typography variant="h6">Thumbnail</Typography>
+                  <ImageComp
+                    imageChange={handleImageChange}
+                    value={postData.thumbnail}
+                    normal
+                    height={200}
+                    width={200}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
 
           <Grid direction="column" container alignItems="center">
@@ -165,6 +199,8 @@ const CreatePost = () => {
                       value={input.value}
                       index={idx}
                       deleteClick={handleRemoveClick}
+                      height={300}
+                      width={300}
                     />
                   ) : input.type === "Link" ? (
                     <LinkComp
@@ -182,7 +218,7 @@ const CreatePost = () => {
             direction="column"
             container
             spacing={1}
-            paddingTop={2}
+            marginTop={5}
             alignItems="center"
           >
             <AddField handleAddClick={handleAddClick} />

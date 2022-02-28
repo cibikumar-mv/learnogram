@@ -2,12 +2,14 @@ import postModel from "../models/posts.js";
 import model from "../models/users.js";
 import tagModel from "../models/tags.js";
 import _ from "lodash";
-import text2png from "text2png";
+// import text2png from "text2png";
 import fs from "fs";
 export const createPost = async (req, res) => { 
+  console.log(req.body);
   const newPost = new postModel(
     _.pick(req.body, ["title", "tags", "content", "type","thumbnail","shortDesc"])
   );
+  console.log("mongo:",newPost);
   newPost.user_id = req.userID;
   try {    
     const result = await newPost.save(); 

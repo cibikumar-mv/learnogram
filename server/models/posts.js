@@ -42,7 +42,7 @@ const schema = new mongoose.Schema({
     thumbnail:{
         type:String,
     },
-    shortDec:{
+    shortDesc:{
         type:String,
     },
     timestamp:{

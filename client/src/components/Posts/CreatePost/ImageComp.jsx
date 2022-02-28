@@ -8,7 +8,6 @@ const ImageComp = (props) => {
   const [image, setImage] = useState(null);
   let fileInputRef = useRef(null);
   useEffect(() => {
-    console.log("Props normal:", props.normal);
     if (image) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -27,15 +26,24 @@ const ImageComp = (props) => {
     e.preventDefault();
     fileInputRef.current.click();
   };
-
   return (
-    <Grid container spacing={2} padding={2}>
-      <Grid item xs={10}>
+    <Grid
+      container
+      justifyContent="center"
+      spacing={props.normal ? 0 : 2}
+      padding={props.normal ? 0 : 2}
+    >
+      <Grid
+        container={props.normal && true}
+        item={!props.normal && true}
+        justifyContent="center"
+        xs={props.normal ? 12 : 10}
+      >
         {props.value ? (
           <img
             src={props.value}
             alt="preview"
-            style={{ objectFit: "cover", width: "300px", height: "300px" }}
+            style={{ objectFit: "cover", width: props.width, height: props.height }}
             onClick={() => {
               setImage(null);
               props.imageChange(props.index, "");

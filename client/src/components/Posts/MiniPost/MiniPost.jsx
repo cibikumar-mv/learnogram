@@ -3,19 +3,14 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import Typog from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
+import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -45,18 +40,14 @@ const GetPost = () => {
     <Card sx={{ maxWidth: 300 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: red[500], width:25, height:25 }}>
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
+        title="Username_007"
         subheader="September 14, 2016"
       />
+      <Divider variant="string" />
       <CardMedia
         component="img"
         height="194"
@@ -66,7 +57,7 @@ const GetPost = () => {
       <CardContent>
       
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is 
+          Short description of the post is shown here.
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

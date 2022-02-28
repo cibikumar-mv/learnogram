@@ -6,9 +6,9 @@ const Home = () => {
   return (
 
     <div>
-        {/* <Toast toastType = "0" name = "Haris0"/> */}
         <Navbar />
         <MiniPost/>
+        <Toast name="haris" toastType="0" />
     </div>
   )
 }
