@@ -8,7 +8,7 @@ const Comment = () => {
   return (
     <Grid container sx={{ ml: 5 ,width:'75%'}}>
       <Grid item xs={12}>
-        <Typography>Comments</Typography>
+        <Typography color="#000000"> Comments</Typography>
       </Grid>
       <Grid container>
         <Grid item  xs={12}>

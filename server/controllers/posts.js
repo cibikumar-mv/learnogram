@@ -75,7 +75,7 @@ export const getPostOfUserByUserId = async (req, res) => {
 };
 export const getPostOfUserByPostId = async (req, res) => { 
   try { 
-    const postResult = await postModel.findById(req.params.id);//.populate('user_id', { imageUrl:1, _id:0});
+    const postResult = await postModel.findById(req.params.id).populate('user_id', { imageUrl:1, _id:0,name:1,username:1});
     // console.log(postResult)
     if(!postResult){
       return res.json({ success: "false", error: "postId not found" });

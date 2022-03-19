@@ -14,9 +14,8 @@ const ShowPost = () => {
   const dispatch = useDispatch();
   //hooks
   useEffect(() => {
-    dispatch(fetchOne("621084e176a0fbac46192f4d"));
-  }, [dispatch]);
-
+    dispatch(fetchOne("621ca739bb263703c4b7eaa3"));
+  }, [dispatch]); 
   return (
     <>
       <Navbar />

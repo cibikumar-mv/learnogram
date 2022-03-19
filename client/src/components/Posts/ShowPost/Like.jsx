@@ -3,10 +3,22 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import "./contentStyle.css";
+import { useDispatch, useSelector } from "react-redux";
+
+
 export const  LikePost=()=>{
-     //state 
+  const posts = useSelector((state) => state.posts);
   const [like,setLike]=useState(0);
+  useEffect(() => {
+    // console.log("from ",posts);
+    setLike(posts.likes);
+  }, [posts]);
+     //state 
+     console.log("from likes",posts.likes);
+    //  const likesInDb = ;
+    //  console.log(likesInDb);
   const setUpvote=()=>{
     setLike(like+1);
   }
@@ -14,10 +26,12 @@ export const  LikePost=()=>{
     setLike(like-1);
   }
     return(
-        <div>
+        <div className="stickyParent">
             <Paper
             elevation={9}
+            className="stickyComp"
             sx={{
+
               height: '100%',
               width:'100%',
               display:'flex',

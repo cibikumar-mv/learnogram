@@ -1,7 +1,7 @@
 //React Imports
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography,Link } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 //Local Imports
 import "./contentStyle.css";
@@ -39,9 +39,9 @@ const Content = () => {
           return (
             <>
             <Grid item key={idx} >
-              {input.type === "TextFiled" ? (
+              {input.type === "TextField" ? (
                 <>
-                <Typography variant="h4" className="text" value={input.value} >{input.value}</Typography>
+                <Typography variant="h4" color="#000000" className="text" value={input.value} >{input.value}</Typography>
                 </>
               ) : input.type === "Image" ? (
                 <>
@@ -49,8 +49,8 @@ const Content = () => {
                  />
                 </>
               ) : input.type === "Link" ? (
-                <>
-                <Typography value={input.value} > {input.value}</Typography>
+                <> 
+                <Link href={input.value} >Click Here</Link> 
                 </>
               ) : null}
             </Grid>

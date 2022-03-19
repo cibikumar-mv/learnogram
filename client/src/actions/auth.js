@@ -19,7 +19,10 @@ export const signin = (formData, navigate) => async (dispatch) => {
     } else if (data.success === "false" && formData.isGoogle) {
       dispatch({ type: SAVE, data: formData });
       navigate("/details");
-    } else {
+    }else if(data.success === "false-normalExists" && formData.isGoogle){
+      alert(data.error);
+    }
+     else {
       throw new Error(data.error);
     }
   } catch (error) {
