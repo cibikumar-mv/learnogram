@@ -11,6 +11,11 @@ API.interceptors.request.use((req) => {
 
 export const signIn = (formData) => API.post('auth/login', formData);
 export const signUp = (formData) => API.post('auth/signup', formData);
+export const forgotPass = (formData) => API.post('password/forget', formData);
 
 export const createPost = (postData) => API.post('posts/', postData);
 export const fetchOne = (id) => API.get(`posts/postid/${id}`);
+export const fetchAll = () => API.get(`posts/`);
+export const likePost = (id) => API.patch(`posts/likePost/${id}`);
+export const dislikePost = (id) => API.patch(`posts/dislikePost/${id}`);
+

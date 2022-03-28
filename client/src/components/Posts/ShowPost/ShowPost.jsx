@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 //Local Imports
 import { fetchOne } from "../../../actions/posts";
 import Content from "./Content";
-import { LikePost } from "./Like";
+import PostOptions from "./PostOptions";
 const ShowPost = () => {
   //declarations
   const dispatch = useDispatch();
   //hooks
   useEffect(() => {
-    dispatch(fetchOne("621ca739bb263703c4b7eaa3"));
+    dispatch(fetchOne("62400c306ea7ff20649a7663"));
   }, [dispatch]); 
   return (
     <>
@@ -31,7 +31,9 @@ const ShowPost = () => {
             }}
           >
             <Grid item>
-              <UserProfile />
+              <div className="userProfileDiv">
+                <UserProfile />
+              </div>
             </Grid>
             <Grid item>
               <Content />
@@ -42,7 +44,7 @@ const ShowPost = () => {
           </Paper>
         </Grid>
         <Grid item xs={1}>
-          <LikePost />
+          <PostOptions />
         </Grid>
       </Grid>
     </>

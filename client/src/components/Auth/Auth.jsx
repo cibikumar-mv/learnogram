@@ -9,6 +9,8 @@ import {
   Typography,
   TextField,
   Button,
+  Link,
+  Box
 } from "@mui/material";
 import { GoogleLogin } from "react-google-login";
 import Icon from "./icon.jsx";
@@ -106,7 +108,7 @@ const Form = () => {
     e.preventDefault();
     if (signIn) {
       console.log("Sign In");
-      dispatch(signin(form, navigate));
+      dispatch(signin({...form, isGoogle:false}, navigate));
     } else {
       if (validation()) {
         dispatch({ type: SAVE, data: {...form , isGoogle:false} });
@@ -114,6 +116,10 @@ const Form = () => {
       }
     }
   };
+
+  const handleForgotPass = () =>{
+    navigate("/forgotPass");
+  }
 
   return (
     <Grid
@@ -173,6 +179,9 @@ const Form = () => {
                 value={form.password}
                 sx={styles.fieldStyle}
               />
+              <Box sx={{cursor:'pointer', mt:2}}>
+              <Link underline="hover"  onClick={handleForgotPass} >Forgot Password?</Link>
+              </Box>
             </>
           ) : (
             <>

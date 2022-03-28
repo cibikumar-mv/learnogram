@@ -37,7 +37,7 @@ const ImageComp = (props) => {
         container={props.normal && true}
         item={!props.normal && true}
         justifyContent="center"
-        xs={props.normal ? 12 : 10}
+        // xs={props.normal ? 12 : 10}
       >
         {props.value ? (
           <img

@@ -1,12 +1,12 @@
 .img{
     object-fit: cover;
      width: 300px;
-      height: 300px ;
-      background-color: red;
-      float: right;
+      height: 300px ; 
+      /* float: right; */
 }
 .text{
     color:blue;
+    text-indent: 20px;
 }
 .stickyParent{
     position: fixed;
@@ -18,4 +18,54 @@
     border: 2px solid black;
     width: fit-content;
     /* margin: ; */
+}
+  .avatar {
+    width: 55px;
+    height: 55px;
+    background-color: #eaeaea;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+  .avatar-skeleton {
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+}
+.userProfileDiv{
+    border-bottom: 1px  solid #adb5bd;
+    /* width: fit-content; */
+    padding-bottom: 1%;
+    margin: 0 1% 0% 1%;
+}
+.postTitle{
+    /* border: 2px solid black; */
+    color: #000000;
+    padding: 1% 0%;
+    text-decoration: underline;
+    text-align: center;
+}
+.postGrid{
+    /* border: 2px solid black; */
+    padding: 1% 5% ;
+}
+.postProgress{
+    /* border: 2px solid blueviolet; */
+    /* float: right; */
+    width: 100%;
+    text-align: right;
+}
+.titleContent{
+    /* border: 2px solid black; */
+    width: 100%;
+    margin-bottom: 5%;
+}
+.postTags{
+    width: 100%;
+    float: left;
+}
+.sepTags{
+    margin: 0 0.5%;
 }

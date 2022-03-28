@@ -4,19 +4,21 @@ import * as api from "../api/index";
 export const signin = (formData, navigate) => async (dispatch) => {
   try {
     let { data } = await api.signIn(formData);
-    console.log("IN ACTION SIGIN", formData);
+    console.log("Login res:", data);
     if (data.success === "true") {
       const result = {
         name: data.result.name,
         email: data.result.email,
         id: data.result._id,
+        username: data.result.username,
         imageUrl: data.result.imageUrl,
         isGoogle: data.result.isGoogle,
       };
       data = { result, token: data.token };
       dispatch({ type: AUTH, data });
       navigate("/");
-    } else if (data.success === "false" && formData.isGoogle) {
+      
+    } else if (data.success === "false-signup" && formData.isGoogle) {
       dispatch({ type: SAVE, data: formData });
       navigate("/details");
     }else if(data.success === "false-normalExists" && formData.isGoogle){
@@ -53,9 +55,20 @@ export const signin = (formData, navigate) => async (dispatch) => {
 //   }
 // };
 
+export const forgotPass = (formData, navigate) => async (dispatch) => {
+  console.log("formData:", formData);
+  try {
+    let { data } = await api.forgotPass(formData);
+    console.log("ForgotPass res:", data);
+  } catch (error) {
+    
+  }
+}
+
 export const signup = (formData, navigate) => async (dispatch) => {
   try {
     let { data } = await api.signUp(formData);
+    console.log("Signup result", data);
     if (data.success === "true") {
       const result = {
         name: data.result.name,
@@ -65,7 +78,6 @@ export const signup = (formData, navigate) => async (dispatch) => {
         isGoogle: data.result.isGoogle,
       };
       data = { result, token: data.token };
-      console.log("Signup result", result);
 
       dispatch({ type: AUTH, data });
       navigate("/");

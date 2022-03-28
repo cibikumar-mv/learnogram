@@ -115,7 +115,7 @@ const CreatePost = () => {
           <Grid item mt={2} xs={12}>
             <Paper square elevation={2} sx={{ bgcolor: "#F2F2F2", marginX:'10%'  }}>
               <Grid container padding={2}>
-                <Grid item padding={1} xs={6}>
+                <Grid item padding={1} xs={12} md={6}>
                   <TextField
                     required
                     fullWidth
@@ -126,7 +126,7 @@ const CreatePost = () => {
                     variant="standard"
                   />
                 </Grid>
-                <Grid item padding={1} xs={6}>
+                <Grid item padding={1} xs={12} md={6}>
                   <TextField
                     required
                     fullWidth
@@ -137,7 +137,7 @@ const CreatePost = () => {
                     variant="standard"
                   />
                 </Grid>
-                <Grid item padding={1} xs={6}>
+                <Grid item padding={1} xs={12} md={6}>
                   <TextField
                     required
                     fullWidth
@@ -156,7 +156,7 @@ const CreatePost = () => {
                   </TextField>
                 </Grid>
 
-                <Grid item padding={1} xs={6}>
+                <Grid item padding={1} xs={12} md={6}>
                   <TextField
                     required
                     fullWidth
@@ -185,7 +185,7 @@ const CreatePost = () => {
           <Grid direction="column" container alignItems="center">
             {inputList.map((input, idx) => {
               return (
-                <Grid item key={idx}>
+                <Grid item key={idx} >
                   {input.type === "TextField" ? (
                     <TextComp
                       inputChange={handleInputChange}
@@ -239,8 +239,6 @@ const CreatePost = () => {
           </Grid>
         </Grid>
       </form>
-      {/* </Box>
-      </Grid> */}
     </div>
   );
 };

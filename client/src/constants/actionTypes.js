@@ -7,3 +7,4 @@ export const DELETE = "DELETE";
 export const FETCH = "FETCH";
 export const UPDATE = "UPDATE";
 export const FETCH_ONE = "FETCH_ONE";
+export const FETCH_ALL = "FETCH_ALL";

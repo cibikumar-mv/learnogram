@@ -6,6 +6,8 @@ import CreatePost from "./components/Posts/CreatePost/CreatePost";
 import Profile from "./components/Profile/Profile";
 import ShowPost from "./components/Posts/ShowPost/ShowPost";
 import Details from "./components/Auth/Details"; 
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 const App = () => {
   return (
     <BrowserRouter>
@@ -16,6 +18,9 @@ const App = () => {
           <Route path="/profile" exact element={<Profile />} />
           <Route path="/showPost" exact element={<ShowPost />} />
           <Route path="/details" exact element={<Details />} />
+          <Route path="/forgotPass" exact element={<ForgotPassword />} />
+          <Route path="/resetPass/:userID/:token" exact element={<ResetPassword />} />
+
         </Routes>
     </BrowserRouter>
   );
