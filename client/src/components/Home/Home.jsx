@@ -4,7 +4,7 @@ import Toast from '../Toast/Toast1'
 import MiniPost from '../Posts/MiniPost/MiniPost'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAll } from '../../actions/posts';
-
+// import {Searchbar} from '../Searchbar/Searchbar';
 const Home = () => {
   const dispatch = useDispatch();
 
@@ -18,9 +18,9 @@ const Home = () => {
   return (
 
     <div>
-        <Navbar />
-        <Toast name="haris" toastType="0" />
-        
+      <Navbar />
+        {/* <Toast name="haris" toastType="0" /> */}
+       {/* <Searchbar/> */}
         <MiniPost/>
     </div>
   )

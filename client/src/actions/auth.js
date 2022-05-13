@@ -13,6 +13,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
         username: data.result.username,
         imageUrl: data.result.imageUrl,
         isGoogle: data.result.isGoogle,
+        bio: data.result.bio
       };
       data = { result, token: data.token };
       dispatch({ type: AUTH, data });
@@ -76,6 +77,7 @@ export const signup = (formData, navigate) => async (dispatch) => {
         id: data.result._id,
         imageUrl: data.result.imageUrl,
         isGoogle: data.result.isGoogle,
+        bio: data.result.bio,
       };
       data = { result, token: data.token };
 

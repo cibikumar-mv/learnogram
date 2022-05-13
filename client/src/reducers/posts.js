@@ -1,19 +1,25 @@
-import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, DELETE, } from "../constants/actionTypes";
+import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, DELETE, START_LOADING, STOP_LOADING } from "../constants/actionTypes";
 
-const reducer = (posts = [], action) => {
+const reducer = (state = { isLoading: true, posts: [] }, action) => {
   switch (action.type) {
+    case START_LOADING:
+      return { ...state, isLoading: true };
+    case STOP_LOADING:
+      return { ...state, isLoading: false };
     case CREATE:
-      return [...posts, action.payload];
+      return [...state, action.payload];
     case FETCH_ONE:
-      return action.payload
+      return { ...state, post: action.payload };
     case UPDATE:
-      return posts.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return {
+        ...state, posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ), post: action.payload
+      };
     case FETCH_ALL:
-      return action.payload;
+      return { ...state, posts: action.payload };
     default:
-      return posts;
+      return state;
   }
 };
 

@@ -10,25 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 const PostOptions = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
-  const posts = useSelector((state) => state.posts);
+  const {post} = useSelector((state) => state.posts);
   const dispatch = useDispatch();
-  const [like, setLike] = useState(0);
-  let isLiked, isNotLiked;
-  const [commentCount, setCommentCount] = useState(0);
   useEffect(() => {
-    // if (posts) {
-    //   console.log(posts);
-    //   setLike(posts.likes?.length - posts.dislikes?.length);
-    // }
-    // setCommentCount(posts.comment.length);
-  }, [posts]);
-
-  const setUpvote = () => {
-    setLike(like + 1);
-  };
-  const setDownvote = () => {
-    setLike(like - 1);
-  };
+   console.log("Dispatched");
+  }, [dispatch]);
 
   return (
     <div className="stickyParent">
@@ -54,10 +40,10 @@ const PostOptions = () => {
               pb: 2,
               // color: isLiked ? "blue" : "black",
             }}
-            onClick={() => {dispatch(likePost(posts._id))}}
+            onClick={() => {dispatch(likePost(post._id))}}
           />
         </Button>
-        {like}
+        {post?.likes-post?.dislikes}
         <Button disabled={!user?.result}>
           <KeyboardDoubleArrowDownIcon
             sx={{
@@ -67,7 +53,7 @@ const PostOptions = () => {
               pb: 2,
               // color: !isNotLiked ? "black" : !isLiked ? "orange" : "black",
             }}
-            onClick={() => {dispatch(dislikePost(posts._id))}}
+            onClick={() => {dispatch(dislikePost(post._id))}}
           />
         </Button>
         <CommentIcon sx={{ fontSize: 30, cursor: "pointer", pb: 2 }} />

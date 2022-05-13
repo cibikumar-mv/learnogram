@@ -42,11 +42,13 @@ const schema = new mongoose.Schema({
         type: Number,
         default:0,
     },
-    reactions : {
-        type : [{
-            user_id :{required : false, type: String, ref: 'users'} ,
-            likeOrDislike : Number
-        }]
+    reactions : { 
+        type : Array,
+        default:[]
+        // type : {
+        //     user_id :{required : false, type: String, ref: 'users'} ,
+        //     likeOrDislike : Number
+        // }
     },
     thumbnail:{
         type:String,

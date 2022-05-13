@@ -1,0 +1,27 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap'); */
+.profilePicCon{
+    border: 5px solid #f4f1de;
+    width: fit-content;
+    border-radius: 50%;
+}
+.userDetailsCon{  
+    border-right: 2px solid black;
+
+}
+.proCon{ 
+    display: flex;
+    justify-content: center;
+}
+
+.profileDetCon{
+    text-align: center;
+}
+.bioContainer{
+    border: 2px solid black;
+    padding: 5%;
+    margin: 2%;
+    text-align: justify;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}

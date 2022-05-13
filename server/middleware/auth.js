@@ -20,6 +20,7 @@ const auth = async (req, res, next) => {
       const verified = jwt.verify(token, process.env.PRIVATEKEY);
       req.userID = verified.id;
     }
+    console.log("MiddleWare:", req.userID);
     next();
   } catch (error) {
     res.json({ success: "false", error: "Invalid token" });

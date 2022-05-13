@@ -19,3 +19,5 @@ export const fetchAll = () => API.get(`posts/`);
 export const likePost = (id) => API.patch(`posts/likePost/${id}`);
 export const dislikePost = (id) => API.patch(`posts/dislikePost/${id}`);
 
+export const fetchUser = (username) =>API.get(`user/${username}`);
+export const userPost = (id) =>API.get(`posts/userId/${id}`);

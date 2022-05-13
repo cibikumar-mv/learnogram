@@ -121,3 +121,23 @@ export const login = async (req, res) => {
     token: token,
   });
 };
+
+
+export const userDetailById = async (req,res)=>{
+  try {
+    const result = model.findById(req.params.id);
+    res.json({ success: "true", result: result  });    
+  } catch (error) {
+    res.json({ success: "false", error: "Something went wrong" });
+  }
+};
+
+export const userDetailByUserName = async (req,res)=>{
+  try {
+    console.log("HEre");
+    const result = model.findOne({username: req.params.userName});
+    res.json({ success: "true", result: result  });    
+  } catch (error) {
+    res.json({ success: "false", error: "Something went wrong" });
+  }
+};

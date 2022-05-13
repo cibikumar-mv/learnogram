@@ -43,6 +43,7 @@ const Form = () => {
 
   //functions
   const googleSuccess = async (res) => {
+    console.log("google success", res);
     const data = res?.profileObj;
     const googleData = {
       name: data.name,

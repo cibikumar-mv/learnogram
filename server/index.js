@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js'; 
 import postRoutes from './routes/posts.js'; 
 import password from './routes/password.js';
+import user from './routes/user.js';
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ console.log("index.js");
 app.use('/auth', authRoutes);
 app.use('/posts',  postRoutes);
 app.use('/password',  password);
+app.use('/user',  user);
 app.get("/",(req,res)=> res.send("Welcome to :)learN o Gram(:"));
 const PORT = process.env.PORT || 5000;
 

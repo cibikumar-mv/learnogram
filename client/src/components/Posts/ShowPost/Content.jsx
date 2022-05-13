@@ -12,30 +12,13 @@ import "./contentStyle.css";
 const Content = () => {
   //declarations
   const navigate = useNavigate();
-  const posts = useSelector((state) => state.posts);
+  const {post, isLoading} = useSelector((state) => state.posts);
   const ary = [1];
   //hooks
   // useEffect(() => {
-  //   console.log(posts);
-  // }, [posts]);
-  if (posts.length === 0) {
-    return (
-      <Grid
-        container
-        spacing={1}
-        direction="column"
-        alignItems="center"
-        justifyContent="space-around"
-        // style={{ minHeight: '100vh' }}
-      >
-        <Skeleton
-          width="500px"
-          count={5}
-          style={{ margin: "3%", padding: "3%" }}
-        />
-      </Grid>
-    );
-  } else {
+  //   console.log(post);
+  // }, [post]);
+  if (!isLoading && post) {
     return (
       <Grid
         container
@@ -46,15 +29,15 @@ const Content = () => {
         className="postGrid"
         // style={{ minHeight: '100vh' }}
       >
-        {/* {posts.content &&
-          posts.content.map((item) => (
+        {/* {post.content &&
+          post.content.map((item) => (
             <Grid item xs={12}>
               {}
             </Grid>
           ))} */}
         
         <div className="postTags">
-          {posts.tags.map((ele, idx) => {
+          {post?.tags?.map((ele, idx) => {
             return <Chip label={"#" + ele} className="sepTags" key={idx} />;
           })}
         </div>
@@ -64,23 +47,23 @@ const Content = () => {
             <span
               style={{
                 color:
-                  posts.type === "Completed"
+                  post?.type === "Completed"
                     ? "green"
-                    : posts.type === "In Progress"
+                    : post?.type === "In Progress"
                     ? "red"
                     : "#ffb703",
                 fontWeight: 800,
               }}
             >
-              {posts.type}
+              {post?.type}
             </span>
           </Typography>
           <Typography variant="h2" component="h2" className="postTitle">
-            {posts.title}
+            {post?.title}
           </Typography>
         </div>
-        {posts.content &&
-          posts.content.map((input, idx) => {
+        {post?.content &&
+          post?.content.map((input, idx) => {
             return (
               <Grid item key={idx}>
                 {input.type === "TextField" ? (
@@ -108,6 +91,24 @@ const Content = () => {
               </Grid>
             );
           })}
+      </Grid>
+      
+    );
+  } else {
+    return (
+      <Grid
+        container
+        spacing={1}
+        direction="column"
+        alignItems="center"
+        justifyContent="space-around"
+        // style={{ minHeight: '100vh' }}
+      >
+        <Skeleton
+          width="500px"
+          count={5}
+          style={{ margin: "3%", padding: "3%" }}
+        />
       </Grid>
     );
   }

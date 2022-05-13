@@ -1,9 +1,9 @@
-import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, DELETE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_ONE, CREATE, UPDATE, START_LOADING, STOP_LOADING } from '../constants/actionTypes';
 import * as api from "../api/index";
 
 export const createPost = (post) => async (dispatch) => {
     try {
-        const updatedPost = {...post, tags: post.tags.split(",")};
+        const updatedPost = { ...post, tags: post.tags.split(",") };
         console.log("mongo:", updatedPost);
         const { data } = await api.createPost(updatedPost);
         console.log("msg:" + JSON.stringify(data));
@@ -17,19 +17,26 @@ export const createPost = (post) => async (dispatch) => {
 }
 
 
-export const fetchAll = () => async (dispatch)=>{
+export const fetchAll = () => async (dispatch) => {
     try {
-        const {data} = await api.fetchAll();
-        console.log("FetchALl Res:", data);
-        dispatch({type: FETCH_ALL, payload: data});
+        dispatch({ type: START_LOADING });
+
+        const { data } = await api.fetchAll();
+        dispatch({ type: FETCH_ALL, payload: data });
+
+        dispatch({ type: STOP_LOADING });
     } catch (error) {
         console.log(error);
     }
 }
 export const fetchOne = (postID) => async (dispatch) => {
     try {
+        dispatch({ type: START_LOADING });
+
         const { data } = await api.fetchOne(postID);
         dispatch({ type: FETCH_ONE, payload: data.result });
+
+        dispatch({ type: STOP_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -37,10 +44,14 @@ export const fetchOne = (postID) => async (dispatch) => {
 
 export const likePost = (postID) => async (dispatch) => {
     try {
-        const { data } = await api.likePost(postID);
-        console.log("Like Res:",data);
+        dispatch({ type: START_LOADING });
 
+        const { data } = await api.likePost(postID);
         dispatch({ type: UPDATE, payload: data })
+        
+        dispatch({ type: STOP_LOADING });
+        console.log("Like Res:", data);
+
     } catch (error) {
         console.log(error);
     }

@@ -15,8 +15,8 @@ const App = () => {
           <Route path="/" exact element={<Home />} />
           <Route path="/auth" exact element={<Auth />} />
           <Route path="/createPost" exact element={<CreatePost />} />
-          <Route path="/profile" exact element={<Profile />} />
-          <Route path="/showPost" exact element={<ShowPost />} />
+          <Route path="/profile/:username" exact element={<Profile />} />
+          <Route path="/post/:id" exact element={<ShowPost />} />
           <Route path="/details" exact element={<Details />} />
           <Route path="/forgotPass" exact element={<ForgotPassword />} />
           <Route path="/resetPass/:userID/:token" exact element={<ResetPassword />} />

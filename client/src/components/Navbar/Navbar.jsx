@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
+import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -49,7 +50,7 @@ const ResponsiveAppBar = () => {
       navigate("/auth");
       setUser(null);
     } else if (event.target.innerText === "Profile") {
-      navigate("/profile");
+      navigate("/profile/" + user.result.username);
     }
     setAnchorElUser(null);
   };
@@ -59,14 +60,17 @@ const ResponsiveAppBar = () => {
       <AppBar position="static" color="primary">
         <Container maxWidth="2xl">
           <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-            >
-              LearnOgram
-            </Typography>
+            <Link href="/">
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                color="white"
+              >
+                LearnOgram
+              </Typography>
+            </Link>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"

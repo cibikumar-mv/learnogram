@@ -38,43 +38,75 @@ export const createPost = async (req, res) => {
 export const getPost = async (req, res) => {
   try {
     const postResult = await postModel.find({}).populate('user_id', { imageUrl: 1, _id: 0, name: 1, username: 1 });
-    for(var i=0;i<postResult.length;i++){
-      if(postResult[i].thumbnail.length === 0){
-        const dataUri = await textToImage.generateSync(postResult[i].title,{ 
+    for (var i = 0; i < postResult.length; i++) {
+      if (postResult[i].thumbnail.length === 0) {
+        const dataUri = await textToImage.generateSync(postResult[i].title, {
           fontSize: 18,
           fontFamily: 'Arial',
-          margin: 50, 
-          maxWidth:250,
-        }); 
+          margin: 50,
+          maxWidth: 250,
+        });
         postResult[i].thumbnail = dataUri;
-      } 
-    } 
+      }
+    }
     res.send(postResult);
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: "false", error: "Something went wrong" });
   }
 };
+function func(obj, user_idComing) {
+  if (obj == null) return [false]
+
+  for (let i = 0; i < obj.length; i++) {
+    if (obj[i].user_id === user_idComing) {
+      return [true, obj[i].likeOrDislike];
+    }
+  };
+  return [false];
+}
+//http://localhost:5000/posts/likePost/6241df6e9cf74fd981c32580
 
 export const likePost = async (req, res) => {
-  // console.log("Like Body:", req.body);
+  console.log(req.params.id);
+  console.log(req.url);
   try {
     const post = await postModel.findOne({ _id: req.params.id });
+    let result;
     if (!post) {
       throw new Error("Post not found");
     }
-    else {   
-       if(!post.reactions.includes(req.body.user_id)){    
-       const result = await postModel.findByIdAndUpdate({ _id: req.params.id },
-        {
-          $inc : { likes: 1 },
-          $push : {reactions : {user_id : req.body.user_id, likeOrDislike : 1}}} ); 
-       }
-       else{       
-       }
+    else {
+      var user_id = req.userID;
+      console.log(user_id);
+      var user = func(post.reactions, user_id);
+      console.log(user);
+      if (user[0] === false) {
+        result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+          {
+            $inc: { likes: 1 },
+            $push: { reactions: { user_id, likeOrDislike: 1 } }
+          });
+      }
+      else {
+        console.log(user_id);
+        if (user[1] === 2) {
+          result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+            {
+              $inc: { dislikes: -1, likes: 1 },
+              $set: { reactions: { user_id: user_id, likeOrDislike: 1 } }
+            })
+        }
+        else if (user[1] === 1) {
+          result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+            {
+              $inc: { likes: -1 },
+              $unset: { reactions: { user_id: user_id } }
+            })
+        }
+      }
     }
-    // console.log(post) 
-    return res.json({success : "true"});
+    return res.send(result);
   } catch (error) {
     console.log(error.message);
     res.json({ success: "false", msg: "Something went wrong" });
@@ -82,25 +114,42 @@ export const likePost = async (req, res) => {
 };
 
 export const dislikePost = async (req, res) => {
-  console.log("disLike Body:", req.body);
   try {
     const post = await postModel.findOne({ _id: req.params.id });
     if (!post) {
       throw new Error("Post not found");
     }
-    else {   
-      console.log(post.reactions[0].user_id) 
-      if(!post.reactions.includes(req.body.user_id)){    
-      const result = await postModel.findByIdAndUpdate({ _id: req.params.id },
-       {
-         $inc : { dislikes: 1 },
-         $push : {reactions : {user_id : req.body.user_id, likeOrDislike : -1}}} ); 
+    else {
+      const user_id = req.userID;
+      console.log(user_id);
+      var user = func(post.reactions, user_id);
+      console.log(user);
+      if (user[0] === false) {
+        const result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+          {
+            $inc: { dislikes: 1 },
+            $push: { reactions: { user_id: user_id, likeOrDislike: 2 } }
+          });
       }
-      else{ 
-       console.log("ekse")      
+      else {
+        console.log(user_id);
+        if (user[1] === 1) {
+          const result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+            {
+              $inc: { likes: -1, dislikes: 1 },
+              $set: { reactions: { user_id: user_id, likeOrDislike: 2 } }
+            })
+        }
+        else if (user[1] === 2) {
+          const result = await postModel.findByIdAndUpdate({ _id: req.params.id },
+            {
+              $inc: { dislikes: -1 },
+              $unset: { reactions: { user_id: user_id } }
+            })
+        }
       }
-    }  
-    return res.json({success : "true"});
+    }
+    return res.json({ success: "true" });
   } catch (error) {
     console.log(error.message);
     res.json({ success: "false", msg: "Something went wrong" });
@@ -127,8 +176,19 @@ export const deletePost = async (req, res) => {
 
 export const getPostOfUserByUserId = async (req, res) => {
   try {
-    // console.log(req.params.id);
-    const postResult = await postModel.find({ user_id: req.params.id });
+    console.log(req.params.id);
+    const postResult = await postModel.find({ user_id: req.params.id }).populate('user_id', { imageUrl: 1, _id: 0, name: 1, username: 1 });
+    for (var i = 0; i < postResult.length; i++) {
+      if (postResult[i].thumbnail.length === 0) {
+        const dataUri = await textToImage.generateSync(postResult[i].title, {
+          fontSize: 18,
+          fontFamily: 'Arial',
+          margin: 50,
+          maxWidth: 250,
+        });
+        postResult[i].thumbnail = dataUri;
+      }
+    }
     res.json({ success: true, result: postResult });
   } catch (error) {
     console.log(error);

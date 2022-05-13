@@ -4,6 +4,7 @@ import { Grid, Paper } from "@mui/material";
 import Navbar from "../../Navbar/Navbar";
 import UserProfile from "./UserProfile";
 import Comment from "./Comment";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 //Local Imports
 import { fetchOne } from "../../../actions/posts";
@@ -12,9 +13,11 @@ import PostOptions from "./PostOptions";
 const ShowPost = () => {
   //declarations
   const dispatch = useDispatch();
+  const { id } = useParams();
   //hooks
   useEffect(() => {
-    dispatch(fetchOne("62400c306ea7ff20649a7663"));
+    console.log("id:", id);
+    dispatch(fetchOne(id));
   }, [dispatch]); 
   return (
     <>
